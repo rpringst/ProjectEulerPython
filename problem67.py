@@ -18,14 +18,30 @@ with open('p067_triangle.txt') as f:
 	for line in f:
 		data.append([int(x) for x in line.split()])
 
-start = timer()
+best_time = 10000.0
+worst_time = 0.0
+time_sum = 0.0
 
-results = list(data)
-
-for i in range(len(data)-1, 0, -1):
-	results[i-1] = reduce_and_combine(results[i], results[i-1])
-
-end = timer()
-
-print(results[0])
-print('Execution time (seconds): ' + str(end-start))
+for execution in range(10000):
+	start = timer()
+	
+	results = list(data)
+	
+	for i in range(len(data)-1, 0, -1):
+		results[i-1] = reduce_and_combine(results[i], results[i-1])
+	
+	end = timer()
+	
+	duration = end - start
+	
+	print('Execution time (seconds): ' + str(duration))
+	
+	if duration > worst_time: worst_time = duration
+	elif duration < best_time: best_time = duration
+	time_sum+=duration
+	
+print(results[0][0])
+print('Best Execution time (seconds): ' + str(best_time))
+print('Worst Execution time (seconds): ' + str(worst_time))
+print('Avg Execution time (seconds): ' + str(time_sum/10000.0))
+	
